@@ -1,0 +1,107 @@
+To create a functional replica of the image shown, including the menu and shop elements, here’s a conceptual breakdown and corresponding code in Python using Pygame, a library for creating games.
+
+Note: This implementation assumes that all the textures, images, and assets are available as described in the image. If you need me to generate placeholder assets or further instructions, let me know.
+
+Requirements
+
+	1.	Install Pygame:
+
+pip install pygame
+
+Code: Functional Skateboard Shop Menu
+
+import pygame
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Skateboard Shop")
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+BLUE = (50, 100, 255)
+
+# Fonts
+font = pygame.font.Font(None, 36)
+
+# Load assets
+background = pygame.image.load("shop_background.jpg")  # Replace with your file path
+menu_box = pygame.Surface((300, 200), pygame.SRCALPHA)  # Transparent box for the menu
+menu_box.fill((0, 0, 255, 128))  # Semi-transparent blue
+
+# Example assets (replace with actual textures)
+deck_images = [pygame.image.load("deck1.png"), pygame.image.load("deck2.png")]  # Deck thumbnails
+grip_tape_image = pygame.image.load("grip_tape.png")  # Grip tape example
+wheel_colors = ["Red", "Blue", "Green"]  # Placeholder for wheel color options
+
+# Menu states
+menu_items = ["Change Deck", "Griptape", "Wheel Color", "Done"]
+selected_item = 0
+
+# Display shop items
+def draw_shop_items():
+    # Draw decks on the wall
+    for i, deck in enumerate(deck_images):
+        x = 100 + i * 120
+        screen.blit(deck, (x, 100))  # Adjust position accordingly
+
+# Display menu
+def draw_menu():
+    # Draw menu background
+    screen.blit(menu_box, (450, 150))
+    
+    # Draw menu options
+    for i, item in enumerate(menu_items):
+        color = WHITE if i == selected_item else GRAY
+        text = font.render(item, True, color)
+        screen.blit(text, (470, 170 + i * 40))
+
+# Main loop
+clock = pygame.time.Clock()
+
+while True:
+    screen.fill(BLACK)  # Clear screen
+    screen.blit(background, (0, 0))  # Draw shop background
+    
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                selected_item = (selected_item - 1) % len(menu_items)
+            elif event.key == pygame.K_DOWN:
+                selected_item = (selected_item + 1) % len(menu_items)
+            elif event.key == pygame.K_RETURN:
+                if menu_items[selected_item] == "Done":
+                    print("Exiting menu...")
+                    pygame.quit()
+                    sys.exit()
+                else:
+                    print(f"Selected: {menu_items[selected_item]}")
+
+    # Draw items and menu
+    draw_shop_items()
+    draw_menu()
+
+    # Update the screen
+    pygame.display.flip()
+    clock.tick(30)
+
+How it Works:
+
+	1.	Assets: Replace placeholders like "deck1.png" or "shop_background.jpg" with actual image files matching the menu’s style.
+	2.	Menu Navigation:
+	•	Use the Up/Down arrows to navigate the menu.
+	•	Press Enter to select an option.
+	3.	Customizable States: Add functionality for each menu option (e.g., changing the deck or grip tape) by expanding the event logic inside the if event.key == pygame.K_RETURN: block.
+
+Let me know if you’d like further refinements or need specific assets!
